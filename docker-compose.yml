@@ -1,0 +1,11 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5174:5173"
+    volumes:
+      - ./frontend:/app
+    command: yarn dev --host
+    environment:
+      - NODE_ENV=development
