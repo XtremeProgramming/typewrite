@@ -39,7 +39,8 @@ This project was built in 1 month by:
 
 1. **Install Docker** (if you don't have it already).
 2. **Navigate to the root of the repo** (where `docker-compose.yml` is).
-3. **Run all Docker containers** 
+3. **Create a .env file based on the .env.example and fill all the variables**
+4. **Run all Docker containers** 
 
    ```bash
    docker compose up
