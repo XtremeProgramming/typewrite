@@ -49,7 +49,7 @@ If you only need the **frontend** running for local development:
    docker compose up frontend
    ```
 
-This will build the **frontend** Docker container and map it to port `5174` on your local machine. After that, navigate to `http://localhost:5174` to access the frontend.
+This will build the **frontend** Docker container and map it to port `5173` on your local machine. After that, navigate to `http://localhost:5173` to access the frontend.
 
 To stop the frontend container:
 
