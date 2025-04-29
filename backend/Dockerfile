@@ -1,5 +1,5 @@
 # Use the official Python image
-FROM python:3.11-slim
+FROM python:3.13-alpine
 
 # Install some system dependencies (useful for PostgreSQL connection)
 RUN apt-get update && apt-get install -y gcc libpq-dev
