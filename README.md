@@ -37,13 +37,28 @@ This project was built in 1 month by:
 
 ## 🚀 Getting Started
 
+1. **Install Docker** (if you don't have it already).
+2. **Navigate to the root of the repo** (where `docker-compose.yml` is).
+3. **Create a .env file based on the .env.example and fill all the variables**
+4. **Run all Docker containers** 
+
+   ```bash
+   docker compose up
+   ```
+
+To stop all the containers:
+
+```bash
+docker compose down
+```
+
+Alternatively, if you want to run each container separately, follow the steps bellow:
+
 ### Frontend
 
 If you only need the **frontend** running for local development:
 
-1. **Install Docker** (if you don't have it already).
-2. **Navigate to the root of the repo** (where `docker-compose.yml` is).
-3. Run the following to start the **frontend** in Docker:
+1. Run the following to start the **frontend** in Docker:
 
    ```bash
    docker compose up frontend
@@ -51,8 +66,12 @@ If you only need the **frontend** running for local development:
 
 This will build the **frontend** Docker container and map it to port `5173` on your local machine. After that, navigate to `http://localhost:5173` to access the frontend.
 
-To stop the frontend container:
+### Backend
 
-```bash
-docker compose down
-```
+1. Run the following to start the **backend** in Docker:
+
+   ```bash
+   docker compose up api
+   ```
+
+This will build the **backend** and **db** Docker containers and map them to port `8080`, `5434` respectively on your local machine. After that, navigate to `http://localhost:8080` to access the backend.
