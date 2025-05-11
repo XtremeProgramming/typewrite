@@ -1,24 +1,27 @@
 import { Link, Outlet } from "react-router";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
+import { ROUTES } from "@/constants/routes";
 
 export const Layout = () => {
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/signin">Sign In</Link>
-          </li>
-          <li>
-            <Link to="/signup">Sign Up</Link>
-          </li>
-          <li>
-            <Link to="/recover">Recover Password</Link>
-          </li>
-        </ul>
-      </nav>
+      <NavigationMenu>
+        <NavigationMenuList>
+          {ROUTES.map((route) => (
+            <NavigationMenuItem key={route.path}>
+              <NavigationMenuLink asChild>
+                <Link to={route.path}>{route.label}</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          ))}
+        </NavigationMenuList>
+      </NavigationMenu>
+
       <hr />
       <Outlet />
     </div>
