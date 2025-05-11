@@ -2,7 +2,7 @@
 FROM python:3.13-alpine
 
 # Install some system dependencies (useful for PostgreSQL connection)
-RUN apt-get update && apt-get install -y gcc libpq-dev
+RUN apk update && apk add --no-cache gcc musl-dev postgresql-dev libffi-dev
 
 # Create the working directory
 WORKDIR /app
