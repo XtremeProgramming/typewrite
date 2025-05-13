@@ -1,18 +1,31 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router";
+import { z } from "zod";
 import { Button } from "./ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "./ui/card";
 import { Input } from "./ui/input";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import { Link } from "react-router";
+
+const schema = z.object({
+  email: z.string().email().min(1, "Email is required"),
+});
 
 export default function RecoverPassword() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+  console.log("🚀 ~ RecoverPassword ~ errors:", errors);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
@@ -30,7 +43,7 @@ export default function RecoverPassword() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-3">
                     <Label htmlFor="email">Email</Label>
@@ -38,9 +51,14 @@ export default function RecoverPassword() {
                       id="email"
                       type="email"
                       placeholder="m@example.com"
-                      required
+                      // required
                       {...register("email")}
                     />
+                    {errors.email && (
+                      <span className="text-red-500 text-sm">
+                        {errors.email.message}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-col gap-3">
                     <Button type="submit" className="w-full">
