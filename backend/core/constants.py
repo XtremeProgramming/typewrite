@@ -1,0 +1,12 @@
+EMAIL_ALREADY_REGISTERED = "email_already_registered"
+INVALID_INPUT = "invalid_input"
+PASSWORDS_DO_NOT_MATCH = "passwords_do_not_match"
+PASSWORD_TOO_SHORT = "password_too_short"
+PASSWORD_TOO_LONG = "password_too_long"
+REQUIRED_FIELDS_MISSING = "required_fields_missing"
+
+PYDANTIC_FIELD_REQUIRED_MSG = "Field required"
+PYDANTIC_EMAIL_ALREADY_REGISTERED_MSG = "Email already registered"
+PYDANTIC_PASSWORDS_DO_NOT_MATCH_MSG = "Passwords do not match"
+PYDANTIC_PASSWORD_TOO_SHORT_MSG = "String should have at least 12 characters"
+PYDANTIC_PASSWORD_TOO_LONG_MSG = "String should have at least 128 characters"
