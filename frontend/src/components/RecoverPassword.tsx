@@ -9,6 +9,7 @@ import {
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { Link } from "react-router";
 
 export default function RecoverPassword() {
   const { register, handleSubmit } = useForm();
@@ -49,9 +50,9 @@ export default function RecoverPassword() {
                 </div>
                 <div className="mt-4 text-center text-sm">
                   Or you can{" "}
-                  <a href="/signin" className="underline underline-offset-4">
+                  <Link to="/signin" className="underline underline-offset-4">
                     go back to Login
-                  </a>
+                  </Link>
                 </div>
               </form>
             </CardContent>

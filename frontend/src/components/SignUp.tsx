@@ -9,6 +9,7 @@ import {
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { Link } from "react-router";
 
 export default function SignUp() {
   const { register, handleSubmit } = useForm();
@@ -65,9 +66,9 @@ export default function SignUp() {
                 </div>
                 <div className="mt-4 text-center text-sm">
                   Do you have an account already?{" "}
-                  <a href="/signin" className="underline underline-offset-4">
+                  <Link to="/signin" className="underline underline-offset-4">
                     Login
-                  </a>
+                  </Link>
                 </div>
               </form>
             </CardContent>
