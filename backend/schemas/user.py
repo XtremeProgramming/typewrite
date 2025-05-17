@@ -29,3 +29,13 @@ class UserSignupResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str

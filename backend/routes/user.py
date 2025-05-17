@@ -1,14 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from auth.dependencies import get_current_user
+from auth.jwt_handler import create_access_token
 from connection import get_db
-from core.constants import EMAIL_ALREADY_REGISTERED
-from repository.user import create_user
-from schemas.user import UserCreate, UserSignupResponse
+from core.constants import EMAIL_ALREADY_REGISTERED, GENERIC_ERROR, INVALID_CREDENTIALS
+from repository.user import (
+    create_user,
+    get_user_by_credentials,
+)
+from schemas.user import LoginRequest, Token, UserCreate, UserSignupResponse
 
 router = APIRouter()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 
 @router.post(
@@ -18,15 +26,13 @@ async def signup(user: UserCreate, db: Session = Depends(get_db)):
     try:
         new_user = create_user(db, user)
 
-        return UserSignupResponse(
-            id=new_user.id, full_name=new_user.full_name, email=new_user.email
-        )
+        return UserSignupResponse.model_validate(new_user)
 
     except SQLAlchemyError:
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while processing the request. Please try again later.",
+            detail=GENERIC_ERROR,
         )
 
     except ValueError:
@@ -34,3 +40,26 @@ async def signup(user: UserCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_409_CONFLICT,
             content={"id": EMAIL_ALREADY_REGISTERED},
         )
+
+
+@router.post("/login", response_model=Token)
+async def login(
+    login_data: LoginRequest,
+    db: Session = Depends(get_db),
+):
+    user = get_user_by_credentials(db, login_data.email, login_data.password)
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=INVALID_CREDENTIALS,
+        )
+
+    access_token = create_access_token(data={"sub": str(user.email)})
+
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/users", response_model=UserSignupResponse)
+async def get_user(current_user: UserSignupResponse = Depends(get_current_user)):
+    return current_user
