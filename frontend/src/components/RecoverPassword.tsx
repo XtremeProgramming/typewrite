@@ -1,33 +1,38 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "@radix-ui/react-label";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router";
-import { z } from "zod";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Input } from "./ui/input";
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router";
+import { z } from "zod";
 
-const schema = z.object({
-  email: z.string().email().min(1, "Email is required"),
+const formSchema = z.object({
+  email: z.string().email(),
 });
 
 export default function RecoverPassword() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+    },
   });
-  console.log("🚀 ~ RecoverPassword ~ errors:", errors);
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data);
   };
 
@@ -43,35 +48,38 @@ export default function RecoverPassword() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <div className="flex flex-col gap-6">
-                  <div className="grid gap-3">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="m@example.com"
-                      {...register("email")}
-                    />
-                    {errors.email && (
-                      <span className="text-red-500 text-sm">
-                        {errors.email.message}
-                      </span>
-                    )}
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                  <div className="flex flex-col gap-6">
+                    <div className="grid gap-3">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input placeholder="m@example.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <Button type="submit" className="w-full">
+                        Recover password
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <Button type="submit" className="w-full">
-                      Recover password
-                    </Button>
+                  <div className="mt-4 text-center text-sm">
+                    Or you can{" "}
+                    <Link to="/signin" className="underline underline-offset-4">
+                      go back to Login
+                    </Link>
                   </div>
-                </div>
-                <div className="mt-4 text-center text-sm">
-                  Or you can{" "}
-                  <Link to="/signin" className="underline underline-offset-4">
-                    go back to Login
-                  </Link>
-                </div>
-              </form>
+                </form>
+              </Form>
             </CardContent>
           </Card>
         </div>
