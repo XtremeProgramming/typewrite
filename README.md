@@ -72,6 +72,22 @@ This will build the **frontend** Docker container and map it to port `5173` on y
 
 You can use any values you prefer — they don't need to match specific credentials, as long as they are consistent with how you intend to run the application locally or in your environment.
 
+In particular, make sure to fill in the following authentication-related variables in your `.env` file:
+
+- `SECRET_KEY`: A secret string used to sign and verify JWT tokens. Use a long, random, and secure value.
+- `ALGORITHM`: The algorithm used for JWT token encoding (e.g., `HS256`).
+- `ACCESS_TOKEN_EXPIRE_MINUTES`: The expiration time (in minutes) for access tokens (e.g., `30`).
+
+  Example:
+
+  ```bash
+     SECRET_KEY=your-very-secret-key
+     ALGORITHM=HS256
+     ACCESS_TOKEN_EXPIRE_MINUTES=30
+  ```
+
+These variables are required for authentication and security features to work properly.
+
 2. Run the following to start the **backend** in Docker:
 
    ```bash

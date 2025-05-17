@@ -1,8 +1,10 @@
 fastapi
 uvicorn[standard]
 sqlalchemy
-psycopg2-binary
+psycopg2
 python-jose
 passlib[bcrypt]>=1.7.5
 pydantic-settings
 pydantic[email]
+python-multipart==0.0.20
+ruff==0.11.9
