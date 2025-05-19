@@ -15,8 +15,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-        working-directory: ./backend
     concurrency:
       group: pr-${{ github.event.pull_request.number }}-be
       cancel-in-progress: true
@@ -24,16 +22,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      working-directory: ${{env.working-directory}}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
-      working-directory: ${{env.working-directory}}
 
     - name: Build Docker image
       uses: docker/build-push-action@v4
       with:
-        file: ./Dockerfile.production
+        file: ./backend/Dockerfile.production
         push: false
-      working-directory: ${{env.working-directory}}
-        
