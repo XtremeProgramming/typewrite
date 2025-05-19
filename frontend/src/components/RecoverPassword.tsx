@@ -1,20 +1,38 @@
-import { Label } from "@radix-ui/react-label";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-} from "./ui/card";
-import { Input } from "./ui/input";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+import { z } from "zod";
+
+const formSchema = z.object({
+  email: z.string().email(),
+});
 
 export default function RecoverPassword() {
-  const { register, handleSubmit } = useForm();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data);
   };
 
@@ -30,31 +48,32 @@ export default function RecoverPassword() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col gap-6">
-                  <div className="grid gap-3">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="m@example.com"
-                      required
-                      {...register("email")}
-                    />
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="m@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full mt-6">
+                    Recover password
+                  </Button>
+                  <div className="mt-4 text-center text-sm">
+                    Or you can{" "}
+                    <Link to="/signin" className="underline underline-offset-4">
+                      go back to Login
+                    </Link>
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <Button type="submit" className="w-full">
-                      Recover password
-                    </Button>
-                  </div>
-                </div>
-                <div className="mt-4 text-center text-sm">
-                  Or you can{" "}
-                  <Link to="/signin" className="underline underline-offset-4">
-                    go back to Login
-                  </Link>
-                </div>
-              </form>
+                </form>
+              </Form>
             </CardContent>
           </Card>
         </div>
