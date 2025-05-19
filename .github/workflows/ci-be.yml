@@ -15,6 +15,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    concurrency:
+      group: pr-${{ github.event.pull_request.number }}-be
+      cancel-in-progress: true
     
     steps:
     - name: Checkout code
@@ -26,6 +29,6 @@ jobs:
     - name: Build Docker image
       uses: docker/build-push-action@v4
       with:
-        context: ./backend
+        context: './backend'
         file: ./backend/Dockerfile.production
         push: false
