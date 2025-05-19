@@ -23,8 +23,8 @@ import { z } from "zod";
 const formSchema = z
   .object({
     email: z.string().email(),
-    password: z.string().min(8),
-    "repeat-password": z.string().min(8),
+    password: z.string().min(12).max(128),
+    "repeat-password": z.string().min(12).max(128),
   })
   .refine((data) => data.password === data["repeat-password"], {
     message: "Passwords do not match",
@@ -58,56 +58,48 @@ export default function SignUp() {
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="flex flex-col gap-6">
-                    <div className="grid gap-3">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input placeholder="m@example.com" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid gap-3">
-                      <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
-                              <Input type="password" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid gap-3">
-                      <FormField
-                        control={form.control}
-                        name="repeat-password"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Repeat password</FormLabel>
-                            <FormControl>
-                              <Input type="password" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-3">
-                      <Button type="submit" className="w-full">
-                        Create account
-                      </Button>
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="m@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <Input type="password" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="repeat-password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Repeat password</FormLabel>
+                          <FormControl>
+                            <Input type="password" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" className="w-full">
+                      Create account
+                    </Button>
                   </div>
                   <div className="mt-4 text-center text-sm">
                     Do you have an account already?{" "}
