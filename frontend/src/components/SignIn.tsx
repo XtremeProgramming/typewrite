@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
+import { signIn } from "@/api/auth";
 import {
   Form,
   FormControl,
@@ -19,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -35,8 +37,29 @@ export default function SignIn() {
     },
   });
 
+  const { mutate } = useMutation({
+    mutationFn: (data: { email: string; password: string }) =>
+      signIn(data.email, data.password),
+    onSuccess: (response) => {
+      console.log("🚀 ~ SignIn ~ response:", response);
+      alert("User logged in successfully");
+      localStorage.setItem("access_token", response.data.access_token);
+    },
+    onError: (error: any) => {
+      alert(
+        error?.message + " : " + error?.response?.data?.id ||
+          "Something went wrong"
+      );
+      console.error("Error creating user:", error);
+    },
+  });
+
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data);
+    mutate({
+      email: data.email,
+      password: data.password,
+    });
   };
 
   return (

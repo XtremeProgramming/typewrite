@@ -1,3 +1,4 @@
+import { signUp } from "@/api/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,12 +17,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import { z } from "zod";
 
 const formSchema = z
   .object({
+    fullName: z.string(),
     email: z.string().email(),
     password: z.string().min(12).max(128),
     "repeat-password": z.string().min(12).max(128),
@@ -35,14 +38,35 @@ export default function SignUp() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      fullName: "",
       email: "",
       password: "",
       "repeat-password": "",
     },
   });
 
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: (data: { fullName: string; email: string; password: string }) =>
+      signUp(data.fullName, data.email, data.password),
+    onSuccess: () => {
+      // TODO: success message + redirect
+      alert("User created successfully");
+    },
+    onError: (error: any) => {
+      alert(
+        error?.message + " : " + error?.response?.data?.id ||
+          "Something went wrong"
+      );
+      console.error("Error creating user:", error);
+    },
+  });
+
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    mutate({
+      fullName: data.fullName,
+      email: data.email,
+      password: data.password,
+    });
   };
 
   return (
@@ -60,12 +84,29 @@ export default function SignUp() {
                   <div className="flex flex-col gap-6">
                     <FormField
                       control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
+                          <FormControl>
+                            <Input disabled={isPending} {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
                       name="email"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
-                            <Input placeholder="m@example.com" {...field} />
+                            <Input
+                              placeholder="m@example.com"
+                              disabled={isPending}
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -78,7 +119,11 @@ export default function SignUp() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" {...field} />
+                            <Input
+                              type="password"
+                              disabled={isPending}
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -91,14 +136,22 @@ export default function SignUp() {
                         <FormItem>
                           <FormLabel>Repeat password</FormLabel>
                           <FormControl>
-                            <Input type="password" {...field} />
+                            <Input
+                              type="password"
+                              disabled={isPending}
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full">
-                      Create account
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={isPending}
+                    >
+                      {isPending ? "Loading..." : "Create account"}
                     </Button>
                   </div>
                   <div className="mt-4 text-center text-sm">
