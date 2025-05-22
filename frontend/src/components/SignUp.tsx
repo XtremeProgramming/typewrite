@@ -19,8 +19,9 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { z } from "zod";
+import { toast } from "sonner";
 
 const formSchema = z
   .object({
@@ -45,19 +46,22 @@ export default function SignUp() {
     },
   });
 
-  const { mutate, isPending, isError, error } = useMutation({
+  const navigate = useNavigate();
+
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: { fullName: string; email: string; password: string }) =>
       signUp(data.fullName, data.email, data.password),
     onSuccess: () => {
-      // TODO: success message + redirect
-      alert("User created successfully");
+      toast.success("User created successfully", {
+        position: "top-right",
+      });
+
+      navigate("/signin");
     },
-    onError: (error: any) => {
-      alert(
-        error?.message + " : " + error?.response?.data?.id ||
-          "Something went wrong"
-      );
-      console.error("Error creating user:", error);
+    onError: (error) => {
+      toast.error(error.message, {
+        position: "top-right",
+      });
     },
   });
 

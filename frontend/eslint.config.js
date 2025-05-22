@@ -11,7 +11,7 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      ...pluginQuery.configs.recommended,
+      ...pluginQuery.configs['flat/recommended'],
     ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
@@ -21,7 +21,6 @@ export default tseslint.config(
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-      "@tanstack/query": pluginQuery,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,

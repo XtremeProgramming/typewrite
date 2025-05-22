@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { signIn } from "@/api/auth";
 import {
@@ -22,6 +22,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -37,20 +38,23 @@ export default function SignIn() {
     },
   });
 
+  const navigate = useNavigate();
+
   const { mutate } = useMutation({
     mutationFn: (data: { email: string; password: string }) =>
       signIn(data.email, data.password),
     onSuccess: (response) => {
-      console.log("🚀 ~ SignIn ~ response:", response);
-      alert("User logged in successfully");
-      localStorage.setItem("access_token", response.data.access_token);
+      toast.success("User logged in successfully", {
+        position: "top-right",
+      });
+
+      localStorage.setItem("access_token", response.access_token);
+      navigate("/");
     },
-    onError: (error: any) => {
-      alert(
-        error?.message + " : " + error?.response?.data?.id ||
-          "Something went wrong"
-      );
-      console.error("Error creating user:", error);
+    onError: (error) => {
+      toast.error(error.message, {
+        position: "top-right",
+      });
     },
   });
 

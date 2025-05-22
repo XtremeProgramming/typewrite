@@ -1,17 +1,16 @@
-import axios from "axios";
-
-// TODO: Update the API_BASE_URL of production when the backend is deployed
-const API_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "http://localhost:8000"
-    : "http://localhost:8000";
-
-export function apiUrl(path: string) {
-  return `${API_BASE_URL}${path}`;
-}
+import { apiUrl } from "./utils";
 
 export async function signIn(email: string, password: string) {
-  return axios.post(apiUrl("/login"), { email, password });
+  const res = await fetch(apiUrl("/login"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error?.message || "Failed to sign in. " + error?.detail);
+  }
+  return res.json();
 }
 
 export async function signUp(
@@ -19,12 +18,19 @@ export async function signUp(
   email: string,
   password: string
 ) {
-  console.log("🚀 ~ process.env.NODE_ENV:", process.env.NODE_ENV);
-  console.log("🚀 ~ API_BASE_URL:", API_BASE_URL);
-  return axios.post(apiUrl("/signup"), {
-    email,
-    password,
-    full_name: fullName,
-    password_confirmation: password,
+  const res = await fetch(apiUrl("/signup"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      password,
+      full_name: fullName,
+      password_confirmation: password,
+    }),
   });
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error?.message || "Failed to sign up. " + error?.id);
+  }
+  return res.json();
 }
