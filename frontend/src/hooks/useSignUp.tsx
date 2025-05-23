@@ -1,0 +1,27 @@
+import { signUp } from "@/api/auth";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+
+export const useSignUp = () => {
+  const navigate = useNavigate();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: { fullName: string; email: string; password: string }) =>
+      signUp(data.fullName, data.email, data.password),
+    onSuccess: () => {
+      toast.success("User created successfully", {
+        position: "top-right",
+      });
+
+      navigate("/signin");
+    },
+    onError: (error) => {
+      toast.error(error.message, {
+        position: "top-right",
+      });
+    },
+  });
+
+  return { mutate, isPending };
+};

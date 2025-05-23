@@ -16,7 +16,8 @@ export async function getUser() {
   });
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
-    throw new Error(error?.message || "Failed to fetch user. " + error?.detail);
+    console.error("Failed to fetch user", error);
+    throw new Error("Failed to fetch user. " + error?.detail);
   }
   return res.json();
 }

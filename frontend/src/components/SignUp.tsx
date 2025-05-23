@@ -1,4 +1,3 @@
-import { signUp } from "@/api/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,11 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { z } from "zod";
-import { toast } from "sonner";
+import { useSignUp } from "@/hooks/useSignUp";
 
 const formSchema = z
   .object({
@@ -36,6 +34,8 @@ const formSchema = z
   });
 
 export default function SignUp() {
+  const { mutate, isPending } = useSignUp();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,25 +43,6 @@ export default function SignUp() {
       email: "",
       password: "",
       "repeat-password": "",
-    },
-  });
-
-  const navigate = useNavigate();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data: { fullName: string; email: string; password: string }) =>
-      signUp(data.fullName, data.email, data.password),
-    onSuccess: () => {
-      toast.success("User created successfully", {
-        position: "top-right",
-      });
-
-      navigate("/signin");
-    },
-    onError: (error) => {
-      toast.error(error.message, {
-        position: "top-right",
-      });
     },
   });
 
