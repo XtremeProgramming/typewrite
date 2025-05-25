@@ -9,7 +9,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
-
 import {
   Form,
   FormControl,
@@ -20,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -27,6 +27,8 @@ const formSchema = z.object({
 });
 
 export default function SignIn() {
+  const { mutate } = useSignIn();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,6 +39,10 @@ export default function SignIn() {
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data);
+    mutate({
+      email: data.email,
+      password: data.password,
+    });
   };
 
   return (
