@@ -2,11 +2,12 @@ import { apiUrl } from "./utils";
 
 export interface User {
   id: string;
-  name: string;
+  full_name: string;
   email: string;
+  bio?: string;
 }
 
-export async function getUser() {
+export async function getUser(): Promise<User> {
   const res = await fetch(apiUrl("/users"), {
     method: "GET",
     headers: {
