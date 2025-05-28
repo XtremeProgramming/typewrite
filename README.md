@@ -105,7 +105,7 @@ There, you’ll find a complete list of all available API endpoints, along with 
 To ensure your local database schema is up to date, you need to run the migration script provided in the project.
 Follow the steps below to set the necessary permissions and execute the migration.
 
-**Important:** Before running the migration commands, make sure both the **backend** and **db** are up and running.
+**Important:** Before running the migration commands, make sure both the **api** and **db** are up and running.
 This ensures that Alembic can connect to the database and apply the necessary changes without errors.
 
 1. Gives execution permission to the migration script located at ./bin/migrate.sh.
