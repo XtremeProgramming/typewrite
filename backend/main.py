@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
 
-from connection import engine
 from core.constants import (
     INVALID_INPUT,
     PASSWORD_TOO_LONG,
@@ -15,10 +14,7 @@ from core.constants import (
     PYDANTIC_PASSWORD_TOO_SHORT_MSG,
     REQUIRED_FIELDS_MISSING,
 )
-from models import user as user_model
 from routes import user
-
-user_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.include_router(user.router)
