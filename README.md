@@ -116,7 +116,7 @@ chmod +x ./bin/migrate.sh
 ```
 
 2. Executes the migration script.
-   This script typically contains commands to generate and/or apply Alembic migrations (e.g., alembic upgrade head), automating the database update process.
+   This script applies the migrations created by alembic.
 
 ```bash
 ./bin/migrate.sh
