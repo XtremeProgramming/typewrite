@@ -10,16 +10,12 @@ export const useSignUp = () => {
     mutationFn: (data: { fullName: string; email: string; password: string }) =>
       signUp(data.fullName, data.email, data.password),
     onSuccess: () => {
-      toast.success("User created successfully", {
-        position: "top-right",
-      });
+      toast.success("User created successfully");
 
       navigate("/signin");
     },
     onError: (error) => {
-      toast.error(error.message, {
-        position: "top-right",
-      });
+      toast.error(error.message);
     },
   });
 

@@ -1,11 +1,11 @@
+import { Layout } from "@/components/Layout";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import EditProfile from "@/pages/EditProfile";
+import RecoverPassword from "@/pages/RecoverPassword";
+import SignIn from "@/pages/SignIn";
+import SignUp from "@/pages/SignUp";
+import UserProfile from "@/pages/UserProfile";
 import { createBrowserRouter } from "react-router";
-import EditProfile from "./components/EditProfile";
-import { Layout } from "./components/Layout";
-import ProtectedRoute from "./components/ProtectedRoute";
-import RecoverPassword from "./components/RecoverPassword";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
-import UserProfile from "./components/UserProfile";
 
 export const router = createBrowserRouter([
   {
