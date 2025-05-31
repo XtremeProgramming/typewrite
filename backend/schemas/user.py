@@ -1,4 +1,4 @@
-from dataclasses import Field
+from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, EmailStr, Field, model_validator
@@ -9,6 +9,7 @@ from core.constants import PASSWORDS_DO_NOT_MATCH
 class UserBase(BaseModel):
     full_name: str
     email: EmailStr
+    bio: str
 
 
 class UserCreate(UserBase):
@@ -26,9 +27,20 @@ class UserSignupResponse(BaseModel):
     id: UUID
     full_name: str
     email: EmailStr
+    bio: str
 
     class Config:
         from_attributes = True
+
+
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
+    old_password: Optional[str] = None
+    password: Optional[str] = Field(None, min_length=12, max_length=128)
+    bio: Optional[str] = None
+
+    class Config:
+        extra = "forbid"
 
 
 class Token(BaseModel):
