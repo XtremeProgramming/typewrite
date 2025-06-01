@@ -25,6 +25,7 @@ const formSchema = z
   .object({
     fullName: z.string(),
     email: z.string().email(),
+    bio: z.string(),
     password: z.string().min(12).max(128),
     "repeat-password": z.string().min(12).max(128),
   })
@@ -41,6 +42,7 @@ export default function SignUp() {
     defaultValues: {
       fullName: "",
       email: "",
+      bio: "",
       password: "",
       "repeat-password": "",
     },
@@ -50,6 +52,7 @@ export default function SignUp() {
     mutate({
       fullName: data.fullName,
       email: data.email,
+      bio: data.bio,
       password: data.password,
     });
   };
@@ -92,6 +95,19 @@ export default function SignUp() {
                               disabled={isPending}
                               {...field}
                             />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="bio"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Bio</FormLabel>
+                          <FormControl>
+                            <Input disabled={isPending} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

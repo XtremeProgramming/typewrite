@@ -17,6 +17,7 @@ export async function signIn(email: string, password: string) {
 export async function signUp(
   fullName: string,
   email: string,
+  bio: string,
   password: string
 ) {
   const res = await fetch(apiUrl("/signup"), {
@@ -26,6 +27,7 @@ export async function signUp(
       email,
       password,
       full_name: fullName,
+      bio,
       password_confirmation: password,
     }),
   });
