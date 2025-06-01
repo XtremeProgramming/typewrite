@@ -1,11 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -15,34 +9,39 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useEditProfile } from "@/hooks/useEditProfile";
-import { useUser } from "@/hooks/useUser";
+import { useChangePassword } from "@/hooks/useChangePassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import { z } from "zod";
 
-const formSchema = z.object({
-  fullName: z.string(),
-  bio: z.string(),
-});
+const formSchema = z
+  .object({
+    oldPassword: z.string().min(12).max(128),
+    newPassword: z.string().min(12).max(128),
+    "repeat-newPassword": z.string().min(12).max(128),
+  })
+  .refine((data) => data.newPassword === data["repeat-newPassword"], {
+    message: "Passwords do not match",
+    path: ["repeat-newPassword"],
+  });
 
-export default function EditProfile() {
-  const { mutate, isPending } = useEditProfile();
-  const { user } = useUser();
+export default function ChangePassword() {
+  const { mutate, isPending } = useChangePassword();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: user?.full_name || "",
-      bio: user?.bio || "",
+      oldPassword: "",
+      newPassword: "",
+      "repeat-newPassword": "",
     },
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     mutate({
-      fullName: data.fullName,
-      bio: data.bio,
+      oldPassword: data.oldPassword,
+      password: data.newPassword,
     });
   };
 
@@ -52,8 +51,7 @@ export default function EditProfile() {
         <div className={"flex flex-col gap-6"}>
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Edit Profile</CardTitle>
-              <CardDescription>Edit {user?.email} profile</CardDescription>
+              <CardTitle className="text-2xl">Change password</CardTitle>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -61,12 +59,16 @@ export default function EditProfile() {
                   <div className="flex flex-col gap-6">
                     <FormField
                       control={form.control}
-                      name="fullName"
+                      name="oldPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Full Name</FormLabel>
+                          <FormLabel>Old password</FormLabel>
                           <FormControl>
-                            <Input disabled={isPending} {...field} />
+                            <Input
+                              type="password"
+                              disabled={isPending}
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -74,12 +76,33 @@ export default function EditProfile() {
                     />
                     <FormField
                       control={form.control}
-                      name="bio"
+                      name="newPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Bio</FormLabel>
+                          <FormLabel>New password</FormLabel>
                           <FormControl>
-                            <Input disabled={isPending} {...field} />
+                            <Input
+                              type="password"
+                              disabled={isPending}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="repeat-newPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Repeat new password</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="password"
+                              disabled={isPending}
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

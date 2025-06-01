@@ -8,7 +8,11 @@ export default function UserProfile() {
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    navigate("/edit-profile");
+    navigate("/user/edit-profile");
+  };
+
+  const handleChangePassword = () => {
+    navigate("/user/change-password");
   };
 
   if (isPending) return "Loading...";
@@ -24,9 +28,14 @@ export default function UserProfile() {
           <Card>
             <CardHeader className="flex justify-between">
               <CardTitle className="text-2xl">Profile</CardTitle>
-              <Button variant="outline" onClick={handleEdit}>
-                Edit
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={handleEdit}>
+                  Edit
+                </Button>
+                <Button variant="outline" onClick={handleChangePassword}>
+                  Change Password
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="flex-col gap-4">
               <div>
@@ -34,10 +43,7 @@ export default function UserProfile() {
                 <p className="text-sm text-gray-500">{user.email}</p>
                 <div className="mt-4 flex flex-col">
                   <p className="text-sm font-semibold">Bio</p>
-                  <p className="text-sm  text-gray-500">
-                    {user.bio ||
-                      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga alias nihil tempora exercitationem! Eligendi, doloribus tempore? Aliquam voluptates, qui cum aperiam corrupti, harum repellat deleniti ratione perspiciatis fugiat dolor iure"}
-                  </p>
+                  <p className="text-sm  text-gray-500">{user.bio} </p>
                 </div>
               </div>
             </CardContent>
