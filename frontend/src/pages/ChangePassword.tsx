@@ -26,10 +26,12 @@ const formSchema = z
     path: ["repeat-newPassword"],
   });
 
+type ChangePasswordSchema = z.infer<typeof formSchema>;
+
 export default function ChangePassword() {
   const { mutate, isPending } = useChangePassword();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<ChangePasswordSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       oldPassword: "",
@@ -38,7 +40,7 @@ export default function ChangePassword() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: ChangePasswordSchema) => {
     mutate({
       oldPassword: data.oldPassword,
       password: data.newPassword,

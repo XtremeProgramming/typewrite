@@ -25,7 +25,6 @@ const formSchema = z
   .object({
     fullName: z.string(),
     email: z.string().email(),
-    bio: z.string(),
     password: z.string().min(12).max(128),
     "repeat-password": z.string().min(12).max(128),
   })
@@ -34,25 +33,26 @@ const formSchema = z
     path: ["repeat-password"],
   });
 
+type SignUpSchema = z.infer<typeof formSchema>;
+
 export default function SignUp() {
   const { mutate, isPending } = useSignUp();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<SignUpSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
       email: "",
-      bio: "",
       password: "",
       "repeat-password": "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: SignUpSchema) => {
     mutate({
       fullName: data.fullName,
       email: data.email,
-      bio: data.bio,
+      bio: "",
       password: data.password,
     });
   };
@@ -95,19 +95,6 @@ export default function SignUp() {
                               disabled={isPending}
                               {...field}
                             />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="bio"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Bio</FormLabel>
-                          <FormControl>
-                            <Input disabled={isPending} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

@@ -27,11 +27,13 @@ const formSchema = z.object({
   bio: z.string(),
 });
 
+type EditProfileSchema = z.infer<typeof formSchema>;
+
 export default function EditProfile() {
   const { mutate, isPending } = useEditProfile();
   const { user } = useUser();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<EditProfileSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: user?.full_name || "",
@@ -39,7 +41,7 @@ export default function EditProfile() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: EditProfileSchema) => {
     mutate({
       fullName: data.fullName,
       bio: data.bio,
