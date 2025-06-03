@@ -1,7 +1,7 @@
-import { editUser, UserRequest } from "@/api/user";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
-import { toast } from "sonner";
+import { editUser, UserRequest } from '@/api/user';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 export const useChangePassword = () => {
   const navigate = useNavigate();
@@ -13,9 +13,9 @@ export const useChangePassword = () => {
         password: data.password,
       }),
     onSuccess: () => {
-      toast.success("Password updated successfully");
+      toast.success('Password updated successfully');
 
-      navigate("/user");
+      navigate('/user');
     },
     onError: (error) => {
       toast.error(error.message);

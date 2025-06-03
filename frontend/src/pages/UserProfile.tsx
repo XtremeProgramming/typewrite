@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useUser } from "@/hooks/useUser";
-import { Link, useNavigate } from "react-router";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useUser } from '@/hooks/useUser';
+import { Link, useNavigate } from 'react-router';
 
 export default function UserProfile() {
   const { isPending, user } = useUser();
   const navigate = useNavigate();
 
-  if (isPending) return "Loading...";
+  if (isPending) return 'Loading...';
   if (!user) {
-    navigate("/signin");
+    navigate('/signin');
     return null;
   }
 

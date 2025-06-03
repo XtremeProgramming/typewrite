@@ -1,4 +1,4 @@
-import { apiUrl } from "./utils";
+import { apiUrl } from './utils';
 
 export interface UserResponse {
   id: string;
@@ -16,27 +16,27 @@ export interface UserRequest {
 }
 
 export async function getUser(): Promise<UserResponse> {
-  const res = await fetch(apiUrl("/users"), {
-    method: "GET",
+  const res = await fetch(apiUrl('/users'), {
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-      token: `${localStorage.getItem("access_token")}`,
+      'Content-Type': 'application/json',
+      token: `${localStorage.getItem('access_token')}`,
     },
   });
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
-    console.error("Failed to fetch user", error);
-    throw new Error("Failed to fetch user. " + error?.detail);
+    console.error('Failed to fetch user', error);
+    throw new Error('Failed to fetch user. ' + error?.detail);
   }
   return res.json();
 }
 
 export async function editUser(data: UserRequest): Promise<UserResponse> {
-  const res = await fetch(apiUrl("/users"), {
-    method: "PATCH",
+  const res = await fetch(apiUrl('/users'), {
+    method: 'PATCH',
     headers: {
-      "Content-Type": "application/json",
-      token: `${localStorage.getItem("access_token")}`,
+      'Content-Type': 'application/json',
+      token: `${localStorage.getItem('access_token')}`,
     },
     body: JSON.stringify({
       email: data.email || undefined,
@@ -49,8 +49,8 @@ export async function editUser(data: UserRequest): Promise<UserResponse> {
 
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
-    console.error("Failed to edit user", error);
-    throw new Error("Failed to edit user. " + error?.id);
+    console.error('Failed to edit user', error);
+    throw new Error('Failed to edit user. ' + error?.id);
   }
   return res.json();
 }
