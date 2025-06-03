@@ -26,7 +26,6 @@ def create_user(db: Session, user: UserCreate) -> User:
         full_name=user.full_name,
         email=user.email,
         hashed_password=get_password_hash(user.password),
-        bio=user.bio,
     )
 
     if check_if_email_is_already_registered(db, user.email):
