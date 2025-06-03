@@ -33,10 +33,12 @@ const formSchema = z
     path: ["repeat-password"],
   });
 
+type SignUpSchema = z.infer<typeof formSchema>;
+
 export default function SignUp() {
   const { mutate, isPending } = useSignUp();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<SignUpSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
@@ -46,10 +48,11 @@ export default function SignUp() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: SignUpSchema) => {
     mutate({
       fullName: data.fullName,
       email: data.email,
+      bio: "",
       password: data.password,
     });
   };

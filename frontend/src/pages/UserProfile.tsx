@@ -1,15 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useUser } from "@/hooks/useUser";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function UserProfile() {
   const { isPending, user } = useUser();
   const navigate = useNavigate();
-
-  const handleEdit = () => {
-    navigate("/edit-profile");
-  };
 
   if (isPending) return "Loading...";
   if (!user) {
@@ -24,9 +20,18 @@ export default function UserProfile() {
           <Card>
             <CardHeader className="flex justify-between">
               <CardTitle className="text-2xl">Profile</CardTitle>
-              <Button variant="outline" onClick={handleEdit}>
-                Edit
-              </Button>
+              <div className="flex gap-2">
+                <Link to="/user/edit-profile">
+                  <Button variant="outline" asChild>
+                    <span>Edit</span>
+                  </Button>
+                </Link>
+                <Link to="/user/change-password">
+                  <Button variant="outline" asChild>
+                    <span>Change Password</span>
+                  </Button>
+                </Link>
+              </div>
             </CardHeader>
             <CardContent className="flex-col gap-4">
               <div>
@@ -34,10 +39,7 @@ export default function UserProfile() {
                 <p className="text-sm text-gray-500">{user.email}</p>
                 <div className="mt-4 flex flex-col">
                   <p className="text-sm font-semibold">Bio</p>
-                  <p className="text-sm  text-gray-500">
-                    {user.bio ||
-                      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga alias nihil tempora exercitationem! Eligendi, doloribus tempore? Aliquam voluptates, qui cum aperiam corrupti, harum repellat deleniti ratione perspiciatis fugiat dolor iure"}
-                  </p>
+                  <p className="text-sm  text-gray-500">{user.bio} </p>
                 </div>
               </div>
             </CardContent>

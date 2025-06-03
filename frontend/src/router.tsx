@@ -6,6 +6,7 @@ import SignIn from "@/pages/SignIn";
 import SignUp from "@/pages/SignUp";
 import UserProfile from "@/pages/UserProfile";
 import { createBrowserRouter } from "react-router";
+import ChangePassword from "./pages/ChangePassword";
 
 export const router = createBrowserRouter([
   {
@@ -19,8 +20,14 @@ export const router = createBrowserRouter([
       {
         element: <ProtectedRoute />,
         children: [
-          { path: "user", element: <UserProfile /> },
-          { path: "edit-profile", element: <EditProfile /> },
+          {
+            path: "user",
+            children: [
+              { path: "", element: <UserProfile /> },
+              { path: "edit-profile", element: <EditProfile /> },
+              { path: "change-password", element: <ChangePassword /> },
+            ],
+          },
         ],
       },
     ],
