@@ -1,10 +1,10 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useUser } from "@/hooks/useUser";
 import { useNavigate } from "react-router";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 export default function UserProfile() {
-  const { isPending, user, logout } = useUser();
+  const { isPending, user } = useUser();
   const navigate = useNavigate();
 
   const handleEdit = () => {
@@ -38,9 +38,6 @@ export default function UserProfile() {
                     {user.bio ||
                       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga alias nihil tempora exercitationem! Eligendi, doloribus tempore? Aliquam voluptates, qui cum aperiam corrupti, harum repellat deleniti ratione perspiciatis fugiat dolor iure"}
                   </p>
-                  <Button onClick={logout} className="mt-4">
-                    Logout
-                  </Button>
                 </div>
               </div>
             </CardContent>

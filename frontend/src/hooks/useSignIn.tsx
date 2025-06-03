@@ -10,17 +10,13 @@ export const useSignIn = () => {
     mutationFn: (data: { email: string; password: string }) =>
       signIn(data.email, data.password),
     onSuccess: (response) => {
-      toast.success("User logged in successfully", {
-        position: "top-right",
-      });
+      toast.success("User logged in successfully");
 
       localStorage.setItem("access_token", response.access_token);
       navigate("/");
     },
     onError: (error) => {
-      toast.error(error.message, {
-        position: "top-right",
-      });
+      toast.error(error.message);
     },
   });
 
