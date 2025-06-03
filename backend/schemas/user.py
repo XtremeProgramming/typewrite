@@ -9,7 +9,6 @@ from core.constants import PASSWORDS_DO_NOT_MATCH
 class UserBase(BaseModel):
     full_name: str
     email: EmailStr
-    bio: str
 
 
 class UserCreate(UserBase):
@@ -27,7 +26,6 @@ class UserSignupResponse(BaseModel):
     id: UUID
     full_name: str
     email: EmailStr
-    bio: str
 
     class Config:
         from_attributes = True
@@ -41,6 +39,16 @@ class UserUpdate(BaseModel):
 
     class Config:
         extra = "forbid"
+
+
+class UserUpdateResponse(BaseModel):
+    id: UUID
+    full_name: str
+    email: EmailStr
+    bio: str
+
+    class Config:
+        from_attributes = True
 
 
 class Token(BaseModel):

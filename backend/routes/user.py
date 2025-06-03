@@ -13,7 +13,14 @@ from core.constants import (
     INVALID_CREDENTIALS,
 )
 from repository.user import create_user, get_user_by_credentials, update_user
-from schemas.user import LoginRequest, Token, UserCreate, UserSignupResponse, UserUpdate
+from schemas.user import (
+    LoginRequest,
+    Token,
+    UserCreate,
+    UserSignupResponse,
+    UserUpdate,
+    UserUpdateResponse,
+)
 
 router = APIRouter()
 
@@ -66,7 +73,7 @@ async def get_user(current_user: UserSignupResponse = Depends(get_current_user))
     return current_user
 
 
-@router.patch("/users", response_model=UserSignupResponse)
+@router.patch("/users", response_model=UserUpdateResponse)
 async def update(
     update_data: UserUpdate,
     db: Session = Depends(get_db),
