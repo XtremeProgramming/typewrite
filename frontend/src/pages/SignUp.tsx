@@ -52,7 +52,6 @@ export default function SignUp() {
     mutate({
       fullName: data.fullName,
       email: data.email,
-      bio: '',
       password: data.password,
     });
   };
