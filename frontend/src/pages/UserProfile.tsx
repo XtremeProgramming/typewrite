@@ -37,10 +37,12 @@ export default function UserProfile() {
               <div>
                 <h3 className="text-lg font-medium">{user.full_name}</h3>
                 <p className="text-sm text-gray-500">{user.email}</p>
-                <div className="mt-4 flex flex-col">
-                  <p className="text-sm font-semibold">Bio</p>
-                  <p className="text-sm  text-gray-500">{user.bio} </p>
-                </div>
+                {user.bio && (
+                  <div className="mt-4 flex flex-col">
+                    <p className="text-sm font-semibold">Bio</p>
+                    <p className="text-sm  text-gray-500">{user.bio} </p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

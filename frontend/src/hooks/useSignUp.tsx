@@ -7,12 +7,8 @@ export const useSignUp = () => {
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: {
-      fullName: string;
-      email: string;
-      bio: string;
-      password: string;
-    }) => signUp(data.fullName, data.email, data.bio, data.password),
+    mutationFn: (data: { fullName: string; email: string; password: string }) =>
+      signUp(data.fullName, data.email, data.password),
     onSuccess: () => {
       toast.success('User created successfully');
 
