@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -13,24 +13,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useSignUp } from "@/hooks/useSignUp";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router";
-import { z } from "zod";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useSignUp } from '@/hooks/useSignUp';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router';
+import { z } from 'zod';
 
 const formSchema = z
   .object({
     fullName: z.string(),
     email: z.string().email(),
     password: z.string().min(12).max(128),
-    "repeat-password": z.string().min(12).max(128),
+    'repeat-password': z.string().min(12).max(128),
   })
-  .refine((data) => data.password === data["repeat-password"], {
-    message: "Passwords do not match",
-    path: ["repeat-password"],
+  .refine((data) => data.password === data['repeat-password'], {
+    message: 'Passwords do not match',
+    path: ['repeat-password'],
   });
 
 type SignUpSchema = z.infer<typeof formSchema>;
@@ -41,10 +41,10 @@ export default function SignUp() {
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
-      email: "",
-      password: "",
-      "repeat-password": "",
+      fullName: '',
+      email: '',
+      password: '',
+      'repeat-password': '',
     },
   });
 
@@ -52,7 +52,7 @@ export default function SignUp() {
     mutate({
       fullName: data.fullName,
       email: data.email,
-      bio: "",
+      bio: '',
       password: data.password,
     });
   };
@@ -60,7 +60,7 @@ export default function SignUp() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
-        <div className={"flex flex-col gap-6"}>
+        <div className={'flex flex-col gap-6'}>
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">Sign up</CardTitle>
@@ -139,11 +139,11 @@ export default function SignUp() {
                       className="w-full"
                       disabled={isPending}
                     >
-                      {isPending ? "Loading..." : "Create account"}
+                      {isPending ? 'Loading...' : 'Create account'}
                     </Button>
                   </div>
                   <div className="mt-4 text-center text-sm">
-                    Do you have an account already?{" "}
+                    Do you have an account already?{' '}
                     <Link to="/signin" className="underline underline-offset-4">
                       Login
                     </Link>

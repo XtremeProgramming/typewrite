@@ -1,14 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -16,10 +13,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useSignIn } from "@/hooks/useSignIn";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useSignIn } from '@/hooks/useSignIn';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router';
+import { z } from 'zod';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -32,8 +32,8 @@ export default function SignIn() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -99,7 +99,7 @@ export default function SignIn() {
                     </Button>
                   </div>
                   <div className="mt-4 text-center text-sm">
-                    Don&apos;t have an account?{" "}
+                    Don&apos;t have an account?{' '}
                     <Link to="/signup" className="underline underline-offset-4">
                       Sign up
                     </Link>
