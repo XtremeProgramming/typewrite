@@ -15,6 +15,12 @@ export const Layout = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
 
+  const getInitials = (name: string) => {
+    const names = name.split(' ');
+    if (names.length === 1) return names[0][0].toUpperCase();
+    return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <header className="w-full border-b shadow-sm bg-white">
@@ -32,12 +38,7 @@ export const Layout = () => {
                 >
                   <Avatar className="h-9 w-9 bg-gray-200 text-gray-800 font-medium rounded-full flex items-center justify-center">
                     <AvatarFallback className="text-sm">
-                      {user.full_name
-                        .split(' ')
-                        .map((n: string) => n[0])
-                        .join('')
-                        .toUpperCase()
-                        .slice(0, 2)}
+                      {getInitials(user.full_name)}
                     </AvatarFallback>
                   </Avatar>
                   <span className="text-sm font-medium">{user.full_name}</span>
