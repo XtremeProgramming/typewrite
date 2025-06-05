@@ -68,7 +68,7 @@ async def login(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@router.get("/users", response_model=UserSignupResponse)
+@router.get("/users", response_model=UserUpdateResponse)
 async def get_user(current_user: UserSignupResponse = Depends(get_current_user)):
     return current_user
 
