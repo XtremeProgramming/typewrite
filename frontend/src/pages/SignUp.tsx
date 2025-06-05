@@ -130,8 +130,9 @@ export default function SignUp() {
               <BackLink
                 to="/signin"
                 prefixText="Do you have an account already?"
-                linkText="Login"
-              />
+              >
+                Login
+              </BackLink>
             </form>
           </Form>
         </FormCard>

@@ -57,11 +57,9 @@ export default function RecoverPassword() {
               <Button type="submit" className="w-full mt-6">
                 Recover password
               </Button>
-              <BackLink
-                to="/signin"
-                prefixText="Or you can"
-                linkText="go back to Login"
-              />
+              <BackLink to="/signin" prefixText="Or you can">
+                go back to Login
+              </BackLink>
             </form>
           </Form>
         </FormCard>

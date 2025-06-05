@@ -111,7 +111,7 @@ export default function ChangePassword() {
                   {isPending ? 'Loading...' : 'Edit'}
                 </Button>
               </div>
-              <BackLink to="/user" linkText="Back" />
+              <BackLink to="/user">Back</BackLink>
             </form>
           </Form>
         </FormCard>

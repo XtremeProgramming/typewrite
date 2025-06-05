@@ -90,11 +90,9 @@ export default function SignIn() {
                   Login
                 </Button>
               </div>
-              <BackLink
-                to="/signup"
-                prefixText="Don't have an account?"
-                linkText="Sign up"
-              />
+              <BackLink to="/signup" prefixText="Don't have an account?">
+                Sign up
+              </BackLink>
             </form>
           </Form>
         </FormCard>
