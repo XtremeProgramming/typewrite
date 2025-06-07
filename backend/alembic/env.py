@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
-from models import user  # noqa: F401, F403
+from models import user, post  # noqa: F401, F403
 from connection import Base
 
 load_dotenv()

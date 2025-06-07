@@ -14,10 +14,11 @@ from core.constants import (
     PYDANTIC_PASSWORD_TOO_SHORT_MSG,
     REQUIRED_FIELDS_MISSING,
 )
-from routes import user
+from routes import post, user
 
 app = FastAPI()
 app.include_router(user.router)
+app.include_router(post.router)
 
 origins = ["*"]
 
