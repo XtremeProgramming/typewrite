@@ -2,6 +2,7 @@ import uuid
 
 from sqlalchemy import Column, String
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 
 from connection import Base
 
@@ -14,3 +15,5 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     bio = Column(String, nullable=True)
+
+    posts = relationship("Post", back_populates="author")
