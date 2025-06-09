@@ -1,6 +1,7 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -38,9 +39,9 @@ async def get_post(post_id: UUID, db: Session = Depends(get_db)):
     post = get_post_by_id(db, post_id)
 
     if not post:
-        raise HTTPException(
+        return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=POST_NOT_FOUND,
+            content={"id": POST_NOT_FOUND},
         )
 
     return PostResponse.model_validate(post)
