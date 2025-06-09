@@ -29,7 +29,7 @@ async def create(
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=GENERIC_ERROR,
+            id=GENERIC_ERROR,
         )
 
 
