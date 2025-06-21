@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from fastapi import Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from auth.dependencies import get_current_user
 from core.constants import POST_NOT_FOUND
@@ -21,7 +21,12 @@ def create_post(
 
 
 def get_post_by_id(db: Session, post_id: UUID) -> Post:
-    return db.query(Post).filter(Post.id == post_id).first()
+    return (
+        db.query(Post)
+        .options(joinedload(Post.author))
+        .filter(Post.id == post_id)
+        .first()
+    )
 
 
 def update_post(db: Session, post_id: UUID, update_data: PostUpdate) -> Post:

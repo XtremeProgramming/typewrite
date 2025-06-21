@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.exc import SQLAlchemyError
@@ -38,9 +38,10 @@ async def signup(user: UserCreate, db: Session = Depends(get_db)):
 
     except SQLAlchemyError:
         db.rollback()
-        raise HTTPException(
+
+        return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=GENERIC_ERROR,
+            content={"id": GENERIC_ERROR},
         )
 
     except ValueError:

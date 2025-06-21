@@ -4,6 +4,8 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from schemas.user import UserGetPostResponse
+
 
 class Post(BaseModel):
     title: str
@@ -13,7 +15,7 @@ class Post(BaseModel):
 class PostResponse(Post):
     id: UUID
     created_at: datetime
-    author_id: UUID
+    author: UserGetPostResponse
 
     class Config:
         from_attributes = True
