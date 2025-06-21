@@ -31,6 +31,14 @@ class UserSignupResponse(BaseModel):
         from_attributes = True
 
 
+class UserGetPostResponse(BaseModel):
+    id: UUID
+    full_name: str
+
+    class Config:
+        from_attributes = True
+
+
 class UserUpdate(BaseModel):
     full_name: Optional[str] = None
     old_password: Optional[str] = None

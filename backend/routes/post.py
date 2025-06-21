@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -22,15 +22,16 @@ async def create(
     current_user: User = Depends(get_current_user),
 ):
     try:
-        new_post = create_post(db, post, user_id=current_user.id)
+        new_post = create_post(db, post, current_user.id)
 
         return PostResponse.model_validate(new_post)
 
     except SQLAlchemyError:
         db.rollback()
-        raise HTTPException(
+
+        return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            id=GENERIC_ERROR,
+            content={"id": GENERIC_ERROR},
         )
 
 
