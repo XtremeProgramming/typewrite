@@ -47,7 +47,7 @@ async def get_post(post_id: UUID, db: Session = Depends(get_db)):
     return PostResponse.model_validate(post)
 
 
-@router.patch("/posts/{post_id}", response_model=PostResponse)
+@router.put("/posts/{post_id}", response_model=PostResponse)
 async def update(
     post_id: UUID,
     update_data: Post,
