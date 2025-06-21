@@ -7,6 +7,9 @@ import SignUp from '@/pages/SignUp';
 import UserProfile from '@/pages/UserProfile';
 import { createBrowserRouter } from 'react-router';
 import ChangePassword from './pages/ChangePassword';
+import CreatePost from './pages/CreatePost';
+import PostDetail from './pages/PostDetail';
+import PostList from './pages/PostList';
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +29,14 @@ export const router = createBrowserRouter([
               { path: '', element: <UserProfile /> },
               { path: 'edit-profile', element: <EditProfile /> },
               { path: 'change-password', element: <ChangePassword /> },
+            ],
+          },
+          {
+            path: 'posts',
+            children: [
+              { path: '', element: <PostList /> },
+              { path: 'create', element: <CreatePost /> },
+              { path: ':postId', element: <PostDetail /> },
             ],
           },
         ],
