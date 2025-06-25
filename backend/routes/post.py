@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Query, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -9,7 +9,13 @@ from auth.dependencies import get_current_user
 from connection import get_db
 from core.constants import GENERIC_ERROR, POST_NOT_FOUND
 from models.user import User
-from repository.post import create_post, get_post_by_id, update_post
+from repository.post import (
+    create_post,
+    get_paginated_posts,
+    get_post_by_id,
+    update_post,
+)
+from schemas.pagination import PaginatedResponse
 from schemas.post import Post, PostResponse
 
 router = APIRouter()
@@ -46,6 +52,15 @@ async def get_post(post_id: UUID, db: Session = Depends(get_db)):
         )
 
     return PostResponse.model_validate(post)
+
+
+@router.get("/posts", response_model=PaginatedResponse[PostResponse])
+async def list_paginated_posts(
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1),
+    db: Session = Depends(get_db),
+):
+    return get_paginated_posts(db, page, limit)
 
 
 @router.put("/posts/{post_id}", response_model=PostResponse)

@@ -7,6 +7,7 @@ from auth.dependencies import get_current_user
 from core.constants import POST_NOT_FOUND
 from models.post import Post
 from schemas.post import PostUpdate
+from utils import pagination
 
 
 def create_post(
@@ -27,6 +28,11 @@ def get_post_by_id(db: Session, post_id: UUID) -> Post:
         .filter(Post.id == post_id)
         .first()
     )
+
+
+def get_paginated_posts(db: Session, offset: int = 0, limit: int = 10) -> Post:
+    query = db.query(Post)
+    return pagination.paginate(query, offset, limit)
 
 
 def update_post(db: Session, post_id: UUID, update_data: PostUpdate) -> Post:
