@@ -14,6 +14,7 @@ NEW_PASSWORD_SAME_AS_OLD = "old_password_same_as_new_password"
 REQUIRED_FIELDS_MISSING = "required_fields_missing"
 USER_NOT_FOUND = "user_not_found"
 POST_NOT_FOUND = "post_not_found"
+FORBIDDEN = "user_not_authorized"
 
 PYDANTIC_FIELD_REQUIRED_MSG = "Field required"
 PYDANTIC_EMAIL_ALREADY_REGISTERED_MSG = "Email already registered"
