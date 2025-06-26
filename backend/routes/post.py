@@ -7,10 +7,11 @@ from sqlalchemy.orm import Session
 
 from auth.dependencies import get_current_user
 from connection import get_db
-from core.constants import GENERIC_ERROR, POST_NOT_FOUND
+from core.constants import FORBIDDEN, GENERIC_ERROR, POST_NOT_FOUND
 from models.user import User
 from repository.post import (
     create_post,
+    delete_post,
     get_paginated_posts,
     get_post_by_id,
     update_post,
@@ -87,4 +88,27 @@ async def update(
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={"id": GENERIC_ERROR},
+        )
+
+
+@router.delete("/posts/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete(
+    post_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    try:
+        delete_post(db, post_id, current_user.id)
+
+    except ValueError:
+        db.rollback()
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={"id": POST_NOT_FOUND},
+        )
+    except PermissionError:
+        db.rollback()
+        return JSONResponse(
+            status_code=status.HTTP_403_FORBIDDEN,
+            content={"id": FORBIDDEN},
         )

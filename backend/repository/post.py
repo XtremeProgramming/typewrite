@@ -4,7 +4,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session, joinedload
 
 from auth.dependencies import get_current_user
-from core.constants import POST_NOT_FOUND
+from core.constants import FORBIDDEN, POST_NOT_FOUND
 from models.post import Post
 from schemas.post import PostUpdate
 from utils import pagination
@@ -50,3 +50,16 @@ def update_post(db: Session, post_id: UUID, update_data: PostUpdate) -> Post:
     db.commit()
     db.refresh(post)
     return post
+
+
+def delete_post(db: Session, post_id: int, user_id: int):
+    post = db.query(Post).filter(Post.id == post_id).first()
+
+    if not post:
+        raise ValueError(POST_NOT_FOUND)
+
+    if post.author_id != user_id:
+        raise PermissionError(FORBIDDEN)
+
+    db.delete(post)
+    db.commit()
