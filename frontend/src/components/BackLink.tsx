@@ -9,7 +9,7 @@ interface BackLinkProps {
 
 export function BackLink({ to, prefixText, children }: BackLinkProps) {
   return (
-    <p className="mt-4 text-center text-sm">
+    <p className="mt-4 text-center text-sm text-muted-foreground">
       {prefixText && `${prefixText} `}
       <Link to={to} className="underline underline-offset-4">
         {children}

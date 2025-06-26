@@ -1,3 +1,4 @@
+import { BackLink } from '@/components/BackLink';
 import { CardContainer } from '@/components/CardContainer';
 import { FormCard } from '@/components/FormCard';
 import { PageContainer } from '@/components/PageContainer';
@@ -12,10 +13,12 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useCreatePost } from '@/hooks/useCreatePost';
+import { usePost } from '@/hooks/usePost';
+import { useUpdatePost } from '@/hooks/useUpdatePost';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -23,31 +26,50 @@ const formSchema = z.object({
   content: z.string().min(1),
 });
 
-type CreatePostSchema = z.infer<typeof formSchema>;
+type EditPostSchema = z.infer<typeof formSchema>;
 
-export default function CreatePost() {
+export default function EditPost() {
   const navigate = useNavigate();
-  const { mutate, isPending } = useCreatePost();
+  const { postId } = useParams();
+  const { mutate, isPending } = useUpdatePost();
+  const { data: post, isPending: isPostLoading } = usePost(postId || '');
 
-  const form = useForm<CreatePostSchema>({
+  const form = useForm<EditPostSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      content: '',
+      title: post?.title || '',
+      content: post?.content || '',
     },
   });
 
-  const onSubmit = (data: CreatePostSchema) => {
+  useEffect(() => {
+    if (post) {
+      form.reset({
+        title: post.title,
+        content: post.content,
+      });
+    }
+  }, [post, form]);
+
+  const onSubmit = (data: EditPostSchema) => {
+    if (!postId) return;
+
     mutate({
-      title: data.title,
-      content: data.content,
+      id: postId,
+      data: {
+        title: data.title,
+        content: data.content,
+      },
     });
   };
+
+  if (isPostLoading) return 'Loading...';
+  if (!post) return 'Post not found';
 
   return (
     <PageContainer>
       <CardContainer>
-        <FormCard title="Create Post">
+        <FormCard title="Edit Post">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-6">
@@ -71,7 +93,10 @@ export default function CreatePost() {
                     <FormItem>
                       <FormLabel>Content</FormLabel>
                       <FormControl>
-                        <Textarea {...field} />
+                        <Textarea
+                          {...field}
+                          className="min-h-[200px] max-h-[400px] resize-y"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -81,15 +106,16 @@ export default function CreatePost() {
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => navigate('/posts')}
+                    onClick={() => navigate(`/posts/${postId}`)}
                   >
                     Cancel
                   </Button>
                   <Button type="submit" disabled={isPending}>
-                    Create Post
+                    Update Post
                   </Button>
                 </div>
               </div>
+              <BackLink to={`/posts/${postId}`}>Back to Post</BackLink>
             </form>
           </Form>
         </FormCard>

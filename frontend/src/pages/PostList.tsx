@@ -1,61 +1,56 @@
-import { Post } from '@/api/posts';
-import { CardContainer } from '@/components/CardContainer';
-import { FormCard } from '@/components/FormCard';
-import { PageContainer } from '@/components/PageContainer';
 import { Button } from '@/components/ui/button';
+import { usePosts } from '@/hooks/usePosts';
 import { Link } from 'react-router';
 
+const MAX_CONTENT_LENGTH = 400;
+
 export default function PostList() {
-  const isPending = false;
-  const posts: Post[] = [
-    {
-      id: '1',
-      title: 'Post 1',
-      content: 'Content 1',
-      created_at: '2021-01-01',
-      author_id: '1',
-    },
-    {
-      id: '2',
-      title: 'Post 2',
-      content: 'Content 2',
-      created_at: '2021-01-02',
-      author_id: '2',
-    },
-  ];
+  const { data, isPending, error } = usePosts();
 
+  // TODO: improve loading state
   if (isPending) return 'Loading...';
+  if (error) return 'Error loading posts';
 
-  const headerActions = (
-    <Link to="/posts/create">
-      <Button>Create Post</Button>
-    </Link>
-  );
+  // TODO: add pagination
+  // TODO: add search
+  // TODO: add sort
+  const posts = data?.items || [];
 
   return (
-    <PageContainer>
-      <CardContainer>
-        <FormCard title="Posts" headerActions={headerActions}>
-          <div className="space-y-4">
-            {posts?.map((post) => (
-              <div key={post.id} className="border-b pb-4 last:border-0">
-                <div className="space-y-1">
-                  <Link
-                    to={`/posts/${post.id}`}
-                    className="text-lg font-medium hover:underline"
-                  >
-                    {post.title}
-                  </Link>
-                  <p className="text-sm text-gray-500">{post.created_at}</p>
-                </div>
-              </div>
-            ))}
-            {posts?.length === 0 && (
-              <p className="text-center text-gray-500">No posts yet</p>
-            )}
+    <div className="m-6 flex flex-col gap-4 items-center">
+      <Link to="/posts/create">
+        <Button>Create Post</Button>
+      </Link>
+
+      <div className="w-full max-w-screen-lg">
+        {posts?.map((post) => (
+          <div key={post.id} className="py-6">
+            <div className="relative w-full">
+              <p className="text-sm text-muted-foreground">{post.created_at}</p>
+              <h2 className="mt-2 text-lg font-medium text-foreground md:text-2xl">
+                <Link className="hover:underline" to={`/posts/${post.id}`}>
+                  {post.title}
+                </Link>
+              </h2>
+              <p className="md:text-md pt-4 text-sm text-muted-foreground md:pr-24 xl:pr-32">
+                {post.content.length > MAX_CONTENT_LENGTH
+                  ? `${post.content.substring(0, MAX_CONTENT_LENGTH)}...`
+                  : post.content}
+              </p>
+              <p className="mt-2 text-sm font-medium text-foreground">
+                By {post.author?.full_name || 'Unknown Author'}
+              </p>
+            </div>
+            <div className="mt-4 h-px w-full bg-border" />
           </div>
-        </FormCard>
-      </CardContainer>
-    </PageContainer>
+        ))}
+      </div>
+
+      {posts?.length === 0 && (
+        <div className="text-center text-muted-foreground py-8">
+          <p>No posts yet</p>
+        </div>
+      )}
+    </div>
   );
 }

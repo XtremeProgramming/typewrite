@@ -2,11 +2,22 @@ import { ReactNode } from 'react';
 
 interface CardContainerProps {
   children: ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
-export function CardContainer({ children }: CardContainerProps) {
+export function CardContainer({ children, size = 'md' }: CardContainerProps) {
+  const sizeClasses = {
+    sm: 'max-w-sm',
+    md: 'max-w-screen-md',
+    lg: 'max-w-screen-lg',
+    xl: 'max-w-screen-xl',
+    full: 'max-w-full',
+  };
+
   return (
-    <div className="w-full max-w-sm">
+    <div
+      className={`w-full ${sizeClasses[size]} max-h-[calc(100vh-120px)] overflow-y-auto`}
+    >
       <div className="flex flex-col gap-6">{children}</div>
     </div>
   );
