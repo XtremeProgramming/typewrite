@@ -36,11 +36,11 @@ export default function UserProfile() {
         <FormCard title="Profile" headerActions={headerActions}>
           <div>
             <h3 className="text-lg font-medium">{user.full_name}</h3>
-            <p className="text-sm text-gray-500">{user.email}</p>
+            <p className="text-sm text-muted-foreground">{user.email}</p>
             {user.bio && (
               <div className="mt-4 flex flex-col">
                 <p className="text-sm font-semibold">Bio</p>
-                <p className="text-sm text-gray-500">{user.bio}</p>
+                <p className="text-sm text-muted-foreground">{user.bio}</p>
               </div>
             )}
           </div>
