@@ -15,6 +15,7 @@ REQUIRED_FIELDS_MISSING = "required_fields_missing"
 USER_NOT_FOUND = "user_not_found"
 POST_NOT_FOUND = "post_not_found"
 FORBIDDEN = "user_not_authorized"
+COMMENTS_NOT_FOUND = "comments_not_found"
 
 PYDANTIC_FIELD_REQUIRED_MSG = "Field required"
 PYDANTIC_EMAIL_ALREADY_REGISTERED_MSG = "Email already registered"

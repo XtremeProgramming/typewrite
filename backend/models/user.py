@@ -17,3 +17,4 @@ class User(Base):
     bio = Column(String, nullable=True)
 
     posts = relationship("Post", back_populates="author")
+    comments = relationship("Comment", back_populates="author")
