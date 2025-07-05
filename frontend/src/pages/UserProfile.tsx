@@ -6,10 +6,10 @@ import { useUser } from '@/hooks/useUser';
 import { Link, useNavigate } from 'react-router';
 
 export default function UserProfile() {
-  const { isPending, user } = useUser();
+  const { isLoading, user } = useUser();
   const navigate = useNavigate();
 
-  if (isPending) return 'Loading...';
+  if (isLoading) return 'Loading...';
   if (!user) {
     navigate('/signin');
     return null;

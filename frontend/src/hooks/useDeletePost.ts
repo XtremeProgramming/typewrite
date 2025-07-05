@@ -20,7 +20,7 @@ export function useDeletePost() {
   });
 
   return {
-    mutate,
-    isPending,
+    deletePostMutation: mutate,
+    isDeleting: isPending,
   };
 }

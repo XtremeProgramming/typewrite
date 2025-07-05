@@ -31,8 +31,8 @@ type EditPostSchema = z.infer<typeof formSchema>;
 export default function EditPost() {
   const navigate = useNavigate();
   const { postId } = useParams();
-  const { mutate, isPending } = useUpdatePost();
-  const { data: post, isPending: isPostLoading } = usePost(postId || '');
+  const { updatePostMutation, isUpdating } = useUpdatePost();
+  const { post, isLoading } = usePost(postId || '');
 
   const form = useForm<EditPostSchema>({
     resolver: zodResolver(formSchema),
@@ -54,7 +54,7 @@ export default function EditPost() {
   const onSubmit = (data: EditPostSchema) => {
     if (!postId) return;
 
-    mutate({
+    updatePostMutation({
       id: postId,
       data: {
         title: data.title,
@@ -63,7 +63,7 @@ export default function EditPost() {
     });
   };
 
-  if (isPostLoading) return 'Loading...';
+  if (isLoading) return 'Loading...';
   if (!post) return 'Post not found';
 
   return (
@@ -110,7 +110,7 @@ export default function EditPost() {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={isPending}>
+                  <Button type="submit" disabled={isUpdating}>
                     Update Post
                   </Button>
                 </div>

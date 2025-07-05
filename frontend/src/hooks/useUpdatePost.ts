@@ -18,7 +18,6 @@ export function useUpdatePost() {
     onSuccess: (response) => {
       toast.success('Post updated successfully');
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      queryClient.invalidateQueries({ queryKey: ['posts', response.id] });
       navigate(`/posts/${response.id}`);
     },
     onError: (error) => {
@@ -27,7 +26,7 @@ export function useUpdatePost() {
   });
 
   return {
-    mutate,
-    isPending,
+    updatePostMutation: mutate,
+    isUpdating: isPending,
   };
 }

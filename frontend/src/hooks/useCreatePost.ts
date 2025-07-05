@@ -18,7 +18,7 @@ export function useCreatePost() {
   });
 
   return {
-    mutate,
-    isPending,
+    createPostMutation: mutate,
+    isCreatingPost: isPending,
   };
 }

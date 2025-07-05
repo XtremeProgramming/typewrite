@@ -31,7 +31,7 @@ const formSchema = z
 type ChangePasswordSchema = z.infer<typeof formSchema>;
 
 export default function ChangePassword() {
-  const { mutate, isPending } = useChangePassword();
+  const { changePasswordMutation, isChangingPassword } = useChangePassword();
 
   const form = useForm<ChangePasswordSchema>({
     resolver: zodResolver(formSchema),
@@ -43,7 +43,7 @@ export default function ChangePassword() {
   });
 
   const onSubmit = (data: ChangePasswordSchema) => {
-    mutate({
+    changePasswordMutation({
       oldPassword: data.oldPassword,
       password: data.newPassword,
     });
@@ -65,7 +65,7 @@ export default function ChangePassword() {
                       <FormControl>
                         <Input
                           type="password"
-                          disabled={isPending}
+                          disabled={isChangingPassword}
                           {...field}
                         />
                       </FormControl>
@@ -82,7 +82,7 @@ export default function ChangePassword() {
                       <FormControl>
                         <Input
                           type="password"
-                          disabled={isPending}
+                          disabled={isChangingPassword}
                           {...field}
                         />
                       </FormControl>
@@ -99,7 +99,7 @@ export default function ChangePassword() {
                       <FormControl>
                         <Input
                           type="password"
-                          disabled={isPending}
+                          disabled={isChangingPassword}
                           {...field}
                         />
                       </FormControl>
@@ -107,8 +107,12 @@ export default function ChangePassword() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full" disabled={isPending}>
-                  {isPending ? 'Loading...' : 'Edit'}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isChangingPassword}
+                >
+                  {isChangingPassword ? 'Loading...' : 'Edit'}
                 </Button>
               </div>
               <BackLink to="/user">Back</BackLink>

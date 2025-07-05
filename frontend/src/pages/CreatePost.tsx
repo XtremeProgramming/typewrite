@@ -27,7 +27,7 @@ type CreatePostSchema = z.infer<typeof formSchema>;
 
 export default function CreatePost() {
   const navigate = useNavigate();
-  const { mutate, isPending } = useCreatePost();
+  const { createPostMutation, isCreatingPost } = useCreatePost();
 
   const form = useForm<CreatePostSchema>({
     resolver: zodResolver(formSchema),
@@ -38,7 +38,7 @@ export default function CreatePost() {
   });
 
   const onSubmit = (data: CreatePostSchema) => {
-    mutate({
+    createPostMutation({
       title: data.title,
       content: data.content,
     });
@@ -85,7 +85,7 @@ export default function CreatePost() {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={isPending}>
+                  <Button type="submit" disabled={isCreatingPost}>
                     Create Post
                   </Button>
                 </div>

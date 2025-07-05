@@ -24,7 +24,7 @@ const formSchema = z.object({
 });
 
 export default function SignIn() {
-  const { mutate } = useSignIn();
+  const { signInMutation, isSigningIn } = useSignIn();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,7 +36,7 @@ export default function SignIn() {
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data);
-    mutate({
+    signInMutation({
       email: data.email,
       password: data.password,
     });
@@ -86,8 +86,8 @@ export default function SignIn() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={isSigningIn}>
+                  {isSigningIn ? 'Loading...' : 'Login'}
                 </Button>
               </div>
               <BackLink to="/signup" prefixText="Don't have an account?">

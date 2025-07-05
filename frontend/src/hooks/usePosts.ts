@@ -8,8 +8,8 @@ export function usePosts(page: number = 1, limit: number = 10) {
   });
 
   return {
-    data,
-    isPending,
+    postList: data,
+    isLoading: isPending,
     error,
     refetch,
   };
