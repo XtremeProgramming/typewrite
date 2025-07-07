@@ -26,7 +26,7 @@ const formSchema = z.object({
 type EditProfileSchema = z.infer<typeof formSchema>;
 
 export default function EditProfile() {
-  const { mutate, isPending } = useEditProfile();
+  const { editProfileMutation, isEditingProfile } = useEditProfile();
   const { user } = useUser();
 
   const form = useForm<EditProfileSchema>({
@@ -38,7 +38,7 @@ export default function EditProfile() {
   });
 
   const onSubmit = (data: EditProfileSchema) => {
-    mutate({
+    editProfileMutation({
       fullName: data.fullName,
       bio: data.bio,
     });
@@ -61,7 +61,7 @@ export default function EditProfile() {
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input disabled={isPending} {...field} />
+                        <Input disabled={isEditingProfile} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -74,14 +74,18 @@ export default function EditProfile() {
                     <FormItem>
                       <FormLabel>Bio</FormLabel>
                       <FormControl>
-                        <Input disabled={isPending} {...field} />
+                        <Input disabled={isEditingProfile} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full" disabled={isPending}>
-                  {isPending ? 'Loading...' : 'Edit'}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isEditingProfile}
+                >
+                  {isEditingProfile ? 'Loading...' : 'Edit'}
                 </Button>
               </div>
               <BackLink to="/user">Back</BackLink>

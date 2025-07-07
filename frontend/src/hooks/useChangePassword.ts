@@ -3,17 +3,17 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 
-export const useEditProfile = () => {
+export function useChangePassword() {
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: UserRequest) =>
       editUser({
-        fullName: data.fullName,
-        bio: data.bio,
+        oldPassword: data.oldPassword,
+        password: data.password,
       }),
     onSuccess: () => {
-      toast.success('User updated successfully');
+      toast.success('Password updated successfully');
 
       navigate('/user');
     },
@@ -22,5 +22,8 @@ export const useEditProfile = () => {
     },
   });
 
-  return { mutate, isPending };
-};
+  return {
+    changePasswordMutation: mutate,
+    isChangingPassword: isPending,
+  };
+}

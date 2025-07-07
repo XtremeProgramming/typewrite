@@ -2,7 +2,7 @@ import { getUser } from '@/api/user';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
-export const useUser = () => {
+export function useUser() {
   const token = localStorage.getItem('access_token');
 
   const { isPending, data: user } = useQuery({
@@ -17,5 +17,5 @@ export const useUser = () => {
     navigate('/signin');
   };
 
-  return { user, isPending, logout };
-};
+  return { user, isLoading: isPending, logout };
+}

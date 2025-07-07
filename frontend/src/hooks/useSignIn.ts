@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 
-export const useSignIn = () => {
+export function useSignIn() {
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
@@ -20,5 +20,5 @@ export const useSignIn = () => {
     },
   });
 
-  return { mutate, isPending };
-};
+  return { signInMutation: mutate, isSigningIn: isPending };
+}

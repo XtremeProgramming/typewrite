@@ -1,24 +1,16 @@
-import { createPost } from '@/api/posts';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router';
-import { toast } from 'sonner';
+import { getPosts } from '@/api/posts';
+import { useQuery } from '@tanstack/react-query';
 
-export function usePosts() {
-  const navigate = useNavigate();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: createPost,
-    onSuccess: (response) => {
-      toast.success('Post created successfully');
-      navigate(`/posts/${response.id}`);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
+export function usePosts(page: number = 1, limit: number = 10) {
+  const { data, isPending, error, refetch } = useQuery({
+    queryKey: ['posts', page, limit],
+    queryFn: () => getPosts(page, limit),
   });
 
   return {
-    mutate,
-    isPending,
+    postList: data,
+    isLoading: isPending,
+    error,
+    refetch,
   };
 }

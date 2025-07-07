@@ -7,5 +7,5 @@ export function usePost(postId: string) {
     queryFn: () => getPost(postId),
   });
 
-  return { data, isPending };
+  return { post: data, isLoading: isPending };
 }

@@ -32,7 +32,7 @@ const formSchema = z
 type SignUpSchema = z.infer<typeof formSchema>;
 
 export default function SignUp() {
-  const { mutate, isPending } = useSignUp();
+  const { signUpMutation, isSigningUp } = useSignUp();
 
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(formSchema),
@@ -45,7 +45,7 @@ export default function SignUp() {
   });
 
   const onSubmit = (data: SignUpSchema) => {
-    mutate({
+    signUpMutation({
       fullName: data.fullName,
       email: data.email,
       password: data.password,
@@ -66,7 +66,7 @@ export default function SignUp() {
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input disabled={isPending} {...field} />
+                        <Input disabled={isSigningUp} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -81,7 +81,7 @@ export default function SignUp() {
                       <FormControl>
                         <Input
                           placeholder="m@example.com"
-                          disabled={isPending}
+                          disabled={isSigningUp}
                           {...field}
                         />
                       </FormControl>
@@ -98,7 +98,7 @@ export default function SignUp() {
                       <FormControl>
                         <Input
                           type="password"
-                          disabled={isPending}
+                          disabled={isSigningUp}
                           {...field}
                         />
                       </FormControl>
@@ -115,7 +115,7 @@ export default function SignUp() {
                       <FormControl>
                         <Input
                           type="password"
-                          disabled={isPending}
+                          disabled={isSigningUp}
                           {...field}
                         />
                       </FormControl>
@@ -123,8 +123,8 @@ export default function SignUp() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full" disabled={isPending}>
-                  {isPending ? 'Loading...' : 'Create account'}
+                <Button type="submit" className="w-full" disabled={isSigningUp}>
+                  {isSigningUp ? 'Loading...' : 'Create account'}
                 </Button>
               </div>
               <BackLink

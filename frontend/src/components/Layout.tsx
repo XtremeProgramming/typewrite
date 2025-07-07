@@ -23,7 +23,7 @@ export const Layout = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="w-full border-b shadow-sm bg-white">
+      <header className="w-full border-b shadow-sm bg-card">
         <nav className="px-4 py-3 flex justify-between items-center">
           <Link to="/" className="text-xl font-semibold hover:opacity-80">
             Typewrite
@@ -36,7 +36,7 @@ export const Layout = () => {
                   variant="ghost"
                   className="hover:bg-transparent hover:opacity-100"
                 >
-                  <Avatar className="h-9 w-9 bg-gray-200 text-gray-800 font-medium rounded-full flex items-center justify-center">
+                  <Avatar className="h-9 w-9 bg-muted text-muted-foreground font-medium rounded-full flex items-center justify-center">
                     <AvatarFallback className="text-sm">
                       {getInitials(user.full_name)}
                     </AvatarFallback>
@@ -48,16 +48,16 @@ export const Layout = () => {
               <DropdownMenuContent
                 align="end"
                 sideOffset={12}
-                className="w-45 bg-white border border-gray-200 shadow-lg p-0"
+                className="w-45 bg-card border border-border shadow-lg p-0"
               >
                 <DropdownMenuItem
-                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  className="flex items-center gap-2 px-4 py-2 hover:bg-muted cursor-pointer"
                   onClick={() => navigate('/user')}
                 >
                   <UserIcon className="h-4 w-4" /> <span>Profile</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  className="flex items-center gap-2 px-4 py-2 hover:bg-muted cursor-pointer"
                   onClick={logout}
                 >
                   <LogOutIcon className="h-4 w-4" /> <span>Logout</span>
