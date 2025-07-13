@@ -35,7 +35,6 @@ export default function SignIn() {
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
     signInMutation({
       email: data.email,
       password: data.password,
