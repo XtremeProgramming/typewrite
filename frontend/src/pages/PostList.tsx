@@ -2,15 +2,14 @@ import { Pagination } from '@/components/Pagination';
 import { Button } from '@/components/ui/button';
 import { usePosts } from '@/hooks/usePosts';
 import { formatDate } from '@/utils';
-import { MAX_POSTS_PER_PAGE } from '@/utils/consts';
 import { Link, useSearchParams } from 'react-router';
 
 export default function PostList() {
   const [searchParams] = useSearchParams();
-
   const pageParam = searchParams.get('page');
-  const currentPage = pageParam ? Math.max(1, parseInt(pageParam, 10)) : 1;
-  const { postList, isLoading, error } = usePosts(currentPage);
+
+  const { postList, isLoading, error, totalPages, currentPage } =
+    usePosts(pageParam);
 
   // TODO: improve loading state
   if (isLoading) return 'Loading...';
@@ -18,8 +17,7 @@ export default function PostList() {
 
   // TODO: add search
   // TODO: add sort
-  const { items: posts, total: totalPosts } = postList || {};
-  const totalPages = Math.ceil((totalPosts || 0) / MAX_POSTS_PER_PAGE);
+  const { items: posts } = postList || {};
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return '#';
