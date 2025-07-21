@@ -1,19 +1,28 @@
+import { Pagination } from '@/components/Pagination';
 import { Button } from '@/components/ui/button';
 import { usePosts } from '@/hooks/usePosts';
 import { formatDate } from '@/utils';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 
 export default function PostList() {
-  const { postList, isLoading, error } = usePosts();
+  const [searchParams] = useSearchParams();
+  const pageParam = searchParams.get('page');
+
+  const { postList, isLoading, error, totalPages, currentPage } =
+    usePosts(pageParam);
 
   // TODO: improve loading state
   if (isLoading) return 'Loading...';
   if (error) return 'Error loading posts';
 
-  // TODO: add pagination
   // TODO: add search
   // TODO: add sort
-  const posts = postList?.items || [];
+  const { items: posts } = postList || {};
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return '#';
+    return page === 1 ? '/posts' : `/posts?page=${page}`;
+  };
 
   return (
     <div className="m-6 flex flex-col gap-4 items-center">
@@ -21,9 +30,15 @@ export default function PostList() {
         <Button>Create Post</Button>
       </Link>
 
-      {posts?.length > 0 && (
+      {posts && posts.length === 0 && (
+        <div className="text-center text-muted-foreground py-8">
+          <p>No posts yet</p>
+        </div>
+      )}
+
+      {posts && posts.length > 0 && (
         <div className="w-full max-w-screen-lg">
-          {posts?.map((post) => (
+          {posts.map((post) => (
             <div key={post.id} className="py-6">
               <div className="relative w-full">
                 <p className="text-sm text-muted-foreground">
@@ -47,11 +62,11 @@ export default function PostList() {
         </div>
       )}
 
-      {posts?.length === 0 && (
-        <div className="text-center text-muted-foreground py-8">
-          <p>No posts yet</p>
-        </div>
-      )}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

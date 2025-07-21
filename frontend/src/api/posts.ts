@@ -17,9 +17,8 @@ export interface Post {
 export interface PostListResponse {
   items: Post[];
   total: number;
-  page: number;
-  limit: number;
-  pages: number;
+  has_next: boolean;
+  has_prev: boolean;
 }
 
 export async function getPosts(
